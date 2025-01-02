@@ -1,10 +1,8 @@
-import { fetchDocument, removeReference } from "../../helpPack";
+import firestoreDB from "@/services/firestore";
+import { NextResponse } from "next/server";
 
-export async function GET(request: any, { params }: { params: Promise<{ id: string }> }) {  
+export async function GET(_: any, { params }: { params: Promise<{ id: string }> }) {  
     const movieId  = (await params).id;
-    const movie = await fetchDocument(movieId, "movies");
-    return new Response(JSON.stringify( movie ), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    const movie = await firestoreDB.fetchDocument(movieId, "movies");
+    return NextResponse.json(movie);
 }

@@ -1,34 +1,17 @@
 "use client";
 
-import { DocumentReference } from 'firebase/firestore';
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components';
 import placeholder from '@/public/placeholder.gif';
+import { MovieDataType } from '@/types/index.d';
 
-export type MovieType = {
-    id?: string,
-    title: string,
-    description: string,
-    titleImgSrc: string,
-    ageRating: 'U'|'U/A 7+'|'U/A 13+'|'U/A 16+'|'A',
-    contentWarnings: ['Violence' | 'Sex' | 'Sexual Violence' | 'Sexual Violence References' | 'Child Abuse' | 'Nudity' | 'Self-harm' | 'Suicide' | 'Substances' | 'Language' | 'Disturbing Images' | 'Animal Harm'],
-    tags: [ string ],
-    genres: [ string ],
-    directorRefList: [ DocumentReference ],
-    castRefList: [ DocumentReference ],
-    writerRefList: [ DocumentReference ],
-    videoRef: DocumentReference,
-    posterImgSrc: string,
-    moreVideoRefList: [ DocumentReference ] | [],
-    collectionRef?: DocumentReference,
-};
 type LoadingMovieType = {
   title: any,
   description: any,
   posterImgSrc: string,
 }
 
-const movieNotExist = (movieData: MovieType|LoadingMovieType) : boolean => movieData?.title ? false:true;
+const movieNotExist = (movieData: MovieDataType|LoadingMovieType) : boolean => movieData?.title ? false:true;
 
 const MovieDiv = styled.div`
   background-color: #17091e;
@@ -65,7 +48,7 @@ const loadingMovieData = {
   posterImgSrc: placeholder.src
 };
 const Movie = ({id}: {id: string}) => {
-  const [movieData, setMovieData ] = useState<MovieType|LoadingMovieType>(loadingMovieData);
+  const [movieData, setMovieData ] = useState<MovieDataType|LoadingMovieType>(loadingMovieData);
   useEffect( ()=>{
     if(id !='loading') fetch(`/api/movies/${id}`).then(res=>res.json()).then(data=>setMovieData(data));
   }, []);
