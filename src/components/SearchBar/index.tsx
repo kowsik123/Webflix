@@ -47,7 +47,13 @@ const SearchIcon = styled.div`
     }
 `;
 
-const SearchBar = () => {
+type SearchBarPropType = {
+    onSearch: React.ChangeEventHandler<HTMLInputElement>,
+    id?: string,
+    placeholder?: string,
+}
+
+const SearchBar = ({onSearch, placeholder, id='nav-search-bar'}:SearchBarPropType ) => {
     const inputRef = useRef<HTMLInputElement>(null);
     const [open ,setOpen] = useState(false);
     const iconClickHandler: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -57,8 +63,8 @@ const SearchBar = () => {
   return (
     <SearchBarCont className={open?'open':''}>
         <SearchIcon onClick={iconClickHandler}><FontAwesomeIcon icon={faSearch} width={15} height={15} /></SearchIcon>
-        <label htmlFor='nav-search-input'>Search</label>
-        <input id='nav-search-input' ref={inputRef} placeholder='Title, People, Genre' onBlur={()=>{ setOpen(false) }} />
+        <label htmlFor={id}>Search</label>
+        <input id={id} ref={inputRef} placeholder={placeholder} onBlur={()=>{ setOpen(false) }} onChange={onSearch} />
     </SearchBarCont>
   )
 }
