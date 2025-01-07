@@ -1,9 +1,9 @@
 import { faAngleDown, faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { ReactHTMLElement, ReactNode, useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
+import React, { useRef, useState } from 'react';
+import styled from 'styled-components';
 import Input from '../Input';
-import useOutsideClick from './useOutsideClick';
+import useOutsideClick from '../hooks/useOutsideClick';
 
 const DropdownCont = styled.div`
   position: relative;

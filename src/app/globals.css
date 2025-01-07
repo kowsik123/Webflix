@@ -1,15 +1,3 @@
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
-
 html,
 body {
   max-width: 100vw;
@@ -17,8 +5,9 @@ body {
 }
 
 body {
-  color: var(--foreground);
-  background: var(--background);
+  color: white;
+  background: #0521364e;
+  background: linear-gradient(45deg, #052136, #1E0536);;
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -35,8 +24,57 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
+main.page-main {
+  margin-top: 40px;
+}
+
+.device-error {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  main, nav {
+    display: none !important;
   }
+  body {
+    display: flex;
+    justify-content: center;
+  }
+  .device-error {
+    display: block;
+  }
+}
+
+.gradient-border {
+  --borderWidth: 2px;
+  background: #1D1F20;
+  position: relative;
+  border-radius: var(--borderWidth);
+}
+
+.gradient-border:after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  height: 200%;
+  width: 200%;
+  background: linear-gradient(60deg, #a166ab, #5050b8, #17a8ec, #0ee9fd);
+  border-radius: calc(2 * var(--borderWidth));
+  z-index: -1;
+  animation: animatedgradient 3s infinite;
+  background-size: 300% 300%;
+}
+
+
+@keyframes animatedgradient {
+	0% {
+		rotate: 0;
+	}
+	50% {
+		rotate: 180deg;
+	}
+	100% {
+		rotate: 360deg;
+	}
 }
