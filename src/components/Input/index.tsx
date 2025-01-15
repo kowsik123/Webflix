@@ -1,4 +1,6 @@
-import React, { useState } from 'react'
+"use client"
+
+import React from 'react'
 import styled from 'styled-components';
 
 const InputCont:any = styled.div`

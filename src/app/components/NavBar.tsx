@@ -7,19 +7,23 @@ import { faBellSlash, faEdit, faQuestionCircle, faRotate, faUser } from '@fortaw
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import styled from 'styled-components'
+import netflix from '@/public/netflix.png';
 
-const NavBarCont = styled.nav`
+const NavBarCont: any = styled.nav`
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 40px;
     overflow: hidden;
-    background: linear-gradient(black, transparent);
+    transition: background-color .5s;
+    background: linear-gradient(#000000b0, transparent);
+    ${({$transparent}: any)=>!$transparent && 'background-color: #000000db;' }
     display: flex;
     align-items: center;
+    z-index: 800;
     a.nav-logo {
         margin: 0 30px;
     }
@@ -46,11 +50,11 @@ const NavRightCont = styled.div`
 
 const NavLinkCont: any = styled(Link)`
     ${({active}:any)=>active?`
-    font-weight: bolder;
+    opacity: 1;
     background: linear-gradient(126deg, #9ed6ff, #d09eff);
     background-clip: text;
     color: transparent;`:`
-    font-weight: normal;`}
+    opacity: 0.8;`}
 `;
 
 const NavLink = ({children, href}: React.PropsWithChildren&{href: string}) => {
@@ -129,11 +133,9 @@ const NavRightComponents = () => {
     const [ notificationOpen, setNotificationOpen ] = useState<boolean>(false);
     const [ profileOpen, setProfileOpen ] = useState<boolean>(false);
     useOutsideClick(notificationRef, notificationOpen && (()=>{
-        console.log('outside click');
         setNotificationOpen(false);
     }));
     useOutsideClick(profileRef, profileOpen && (()=>{
-        console.log('outside click');
         setProfileOpen(false);
     }));
     return <NavRightCont>
@@ -185,17 +187,37 @@ const NavRightComponents = () => {
     </NavRightCont>
 }
 
+const TopPixel = styled.div`
+    width: 100%;
+`
+
+const logoSrc = netflix.src || 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1024px-Netflix_2015_logo.svg.png';
+
 const NavBar = () => {
+    const ref = useRef<HTMLDivElement>(null);
+    const [transparent, setTransparent] = useState( true );
+    useEffect(()=>{
+        if(ref.current) {
+            const observer = new IntersectionObserver(([entry])=>{
+                setTransparent(entry.isIntersecting)
+            });
+            observer.observe(ref.current);
+            ()=>observer.disconnect();
+        }
+    }, [ref]);
     return (
-        <NavBarCont>
-            <Link href={'/'} className='nav-logo'><img height={25} className='netflix-logo' src='https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1024px-Netflix_2015_logo.svg.png'  /></Link>
-            <NavLink href={'/'}>Home</NavLink>
-            <NavLink href={'/tv-shows'}>Tv Shows</NavLink>
-            <NavLink href={'/movies'}>Movies</NavLink>
-            <NavLink href={'/latest'}>New & Popular</NavLink>
-            <NavLink href={'/my-list'}>My List</NavLink>
-            <NavRightComponents />
-        </NavBarCont>
+        <>
+            <NavBarCont $transparent={transparent}>
+                <Link href={'/'} className='nav-logo'><img height={25} className='netflix-logo' src={netflix.src} /></Link>
+                <NavLink href={'/'}>Home</NavLink>
+                <NavLink href={'/tvshows'}>Tv Shows</NavLink>
+                <NavLink href={'/movies'}>Movies</NavLink>
+                <NavLink href={'/latest'}>New & Popular</NavLink>
+                <NavLink href={'/mylist'}>My List</NavLink>
+                <NavRightComponents />
+            </NavBarCont>
+            <TopPixel ref={ref} />
+        </>
     )
 }
 

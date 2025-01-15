@@ -2,6 +2,11 @@ export type DataType = {
     id?: string,
 }
 
+export type CategoryType = DataType & {
+    name: string,
+    movieRefList: Array<string>,
+}
+
 export type MovieDataType = DataType & {
     title: string,
     description: string,
@@ -16,7 +21,9 @@ export type MovieDataType = DataType & {
     videoRef: string | VideoDataType,
     posterImgSrc: string,
     moreVideoRefList: Array<string>,
-    collectionRef?: string,
+    collectionRef?: string | null,
+    promoVideoRef: string,
+    creatorRefList: Array<string>,
 };
 
 export type VideoDataType = DataType & {

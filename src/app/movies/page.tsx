@@ -1,5 +1,3 @@
-import Category from "./Category";
-
-export default function MainPage() {
-    return <Category id="cnQogjjxCwZ67Qbw6Vou" />;
+export default function MoviePage() {
+    return <h1>Movie Page</h1>;
 }

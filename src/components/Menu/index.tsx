@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 const MenuCont: any = styled.div`
     position: fixed;
-    z-index: 200;
+    z-index: 800;
     border-radius: 2px;
     overflow: hidden;
     padding: 2px;

@@ -1,3 +1,5 @@
+"use client";
+
 import { faAngleDown, faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useRef, useState } from 'react';
@@ -64,9 +66,9 @@ const DropdownOption: any = styled.div`
 const Dropdown = ({options, value, onSelect}: {options: Array<string>, onSelect?: (value: string, index: number)=>void}&React.SelectHTMLAttributes<HTMLSelectElement>) => {
   const [isOpen, setIsOpen] = useState(false);
   const contRef = useRef<HTMLDivElement>(null);
-  useOutsideClick(contRef, isOpen? (() => {
+  useOutsideClick(contRef, isOpen && (() => {
     setIsOpen(false);
-  }): undefined );
+  }) );
   return (
     <DropdownCont ref={contRef}>
       <DropdownAnchor onClick={()=>setIsOpen(prev=>!prev)}>
