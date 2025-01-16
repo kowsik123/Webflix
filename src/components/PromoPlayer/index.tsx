@@ -2,12 +2,13 @@
 
 import fetchAPI from '@/app/fetchAPI'
 import { MovieDataType } from '@/types'
-import { faAngleDown, faAngleRight, faAnglesRight, faPlay, faRotate, faThumbTack, faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons'
+import { faAnglesRight, faPlay, faRotate, faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { ReactEventHandler, useEffect, useRef, useState } from 'react'
 import { AgeRating, MovieButton, MovieButtonCont, MovieInfo, MovieInfoBackground, MovieTitle, TopPixel, Video, VideoButton, VideoCont, VideoOptions } from './styled'
-import styled, { css, keyframes } from 'styled-components'
 import CompactPromoPlayer from './CompactPromoPlayer'
+import { useSearchParam } from '../hooks'
+import Link from 'next/link'
 
 const HIDE_MOVIE_INFO_AFTER = 5000;
 
@@ -67,11 +68,12 @@ const PromoPlayer = ({ movieData }: { movieData: MovieDataType }) => {
       setHideInfo(true);
     }
   }
+  const {add} = useSearchParam('movie');
   return (
     <VideoCont>
       <TopPixel ref={ref} />
       {videoSrc && <>
-        <Video ref={videoRef} autoPlay={false} muted={muted} src={videoSrc} poster={movieData.posterImgSrc} onPlay={videoPlay} onEnded={videoEnd} onPause={videoPause}></Video>
+        <Video ref={videoRef} autoPlay muted={muted} src={videoSrc} poster={movieData.posterImgSrc} onPlay={videoPlay} onEnded={videoEnd} onPause={videoPause}></Video>
         <VideoOptions onMouseEnter={videoOptionsMouseEntered} onMouseLeave={videoOptionsMouseLeft}>
           <VideoButton onClick={videoButtonClick}>
             {ended ? <FontAwesomeIcon icon={faRotate} width={20} height={20} /> : muted ? <FontAwesomeIcon icon={faVolumeXmark} width={20} height={20} /> : <FontAwesomeIcon icon={faVolumeHigh} width={20} height={20} />}
@@ -83,8 +85,8 @@ const PromoPlayer = ({ movieData }: { movieData: MovieDataType }) => {
           {movieData.titleImgSrc ? <img src={movieData.titleImgSrc} width={200}></img> : <MovieTitle>{movieData.title || "Untitled"}</MovieTitle>}
           <p>{movieData.description}</p>
           <MovieButtonCont>
-            <MovieButton><FontAwesomeIcon icon={faPlay} /><span>Play</span></MovieButton>
-            <MovieButton><FontAwesomeIcon icon={faAnglesRight} /><span>More Info</span></MovieButton>
+            <Link href={`/watch/${movieData.id}`}><MovieButton> <FontAwesomeIcon icon={faPlay} /><span>Play</span></MovieButton></Link>
+            <MovieButton onClick={()=>movieData.id && add(movieData.id)}><FontAwesomeIcon icon={faAnglesRight} /><span>More Info</span></MovieButton>
           </MovieButtonCont>
         </MovieInfo>
       </>}

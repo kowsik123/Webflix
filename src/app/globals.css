@@ -4,6 +4,14 @@ body {
   overflow-x: hidden;
 }
 
+html {
+  background: black;
+}
+
+body.no-scroll {
+  overflow-y: hidden;
+}
+
 body {
   color: white;
   background: #0521364e;
@@ -11,6 +19,8 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-y: scroll;
+  height: 100vh;
 }
 
 * {

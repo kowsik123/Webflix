@@ -3,7 +3,8 @@ import { faAngleDown, faPlay, faRotate, faThumbTack, faVolumeHigh, faVolumeXmark
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useCallback, useRef, useState } from "react";
 import { CompactPosterImg, CompactPromoCont, CompactVideo, CompactVideoButton, CompactVideoOverlay, LeftVideoOption, RightVideoOption } from "./styled";
-import { useVideoData } from "@/components/hooks";
+import { useSearchParam, useVideoData } from "@/components/hooks";
+import Link from "next/link";
 
 const CompactPromoPlayer = ({movieData, onOpen=()=>{}, onClose=()=>{}}:{movieData: MovieDataType}|any)=>{
     const [open, setOpen] = useState(false);
@@ -51,14 +52,15 @@ const CompactPromoPlayer = ({movieData, onOpen=()=>{}, onClose=()=>{}}:{movieDat
       }
       else setMuted(prev => !prev);
     }
+    const { add } = useSearchParam('movie');
     return <CompactPromoCont $open={pinned || open} onMouseEnter={video.play} onMouseLeave={video.stop}>
       <LeftVideoOption>
         <CompactVideoButton onClick={()=>setPinned(prev=>!prev)}>
           <FontAwesomeIcon icon={faThumbTack} width={20} height={20} />
         </CompactVideoButton>
-        <CompactVideoButton>
+        <Link href={`/watch/${movieData.id}`}><CompactVideoButton>
           <FontAwesomeIcon icon={faPlay} width={20} height={20} />
-        </CompactVideoButton>
+        </CompactVideoButton></Link>
       </LeftVideoOption>
       <CompactVideoOverlay>
         <CompactPosterImg src={movieData?.posterImgSrc} width={250} />
@@ -68,7 +70,7 @@ const CompactPromoPlayer = ({movieData, onOpen=()=>{}, onClose=()=>{}}:{movieDat
         <CompactVideoButton onClick={muteButtonClick}>
               {ended ? <FontAwesomeIcon icon={faRotate} width={20} height={20} /> : muted ? <FontAwesomeIcon icon={faVolumeXmark} width={20} height={20} /> : <FontAwesomeIcon icon={faVolumeHigh} width={20} height={20} />}
         </CompactVideoButton>
-        <CompactVideoButton>
+        <CompactVideoButton onClick={()=>add(movieData.id)}>
               <FontAwesomeIcon icon={faAngleDown} width={20} height={20} />
         </CompactVideoButton>
       </RightVideoOption>
