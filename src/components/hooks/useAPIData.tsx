@@ -1,9 +1,9 @@
 "use client";
 
-import { MovieDataType, VideoDataType } from "@/types";
-import { createContext, PropsWithChildren, RefObject, useContext, useEffect, useRef } from "react"
+import { MovieDataType, PersonDataType, VideoDataType } from "@/types";
+import { createContext, PropsWithChildren, RefObject, useContext, useEffect, useRef, useState } from "react"
 
-const CacheContext = createContext<RefObject<Map<string, any>>>( {current: new Map()} );
+const CacheContext = createContext<RefObject<Map<string, any>>>({ current: new Map() });
 
 const handleError = () => {
     //TODO: Show Error Message
@@ -11,39 +11,51 @@ const handleError = () => {
     throw new Error("API Server Error");
 }
 
-export const CacheProvider = ({children}: PropsWithChildren) => {
-    const cache = useRef( new Map() );
-    return <CacheContext.Provider value={ cache }>
+export const CacheProvider = ({ children }: PropsWithChildren) => {
+    const cache = useRef(new Map());
+    return <CacheContext.Provider value={cache}>
         {children}
     </CacheContext.Provider>
 }
 
-const useAPIData = (key: string, callback: (data: any)=>void) => {
+const useAPIData = (key: string | undefined) => {
     const cache = useContext(CacheContext);
-    useEffect( () => {
-        if(!key) return;
+    if (!cache) {
+        console.error('Context Not Provided');
+        return;
+    }
+    const [apiData, setAPIData] = useState();
+    useEffect(() => {
+        if (!key) return;
 
-        if( cache.current.has( key ) ) {
-            const cacheValue = cache.current.get( key );
-            if(cacheValue instanceof Promise) {
-                cache.current.get( key ).then( callback );
+        if (cache.current.has(key)) {
+            const cacheValue = cache.current.get(key);
+            if (cacheValue instanceof Promise) {
+                cache.current.get(key).then((data: any) => {
+                    setAPIData(data);
+                });
             } else {
-                callback( cacheValue );
+                setAPIData(cacheValue);
             }
         } else {
-            cache.current.set( key, fetch(`/api/${key}`).then( (res) => res.ok? res.json():handleError()).then( (data)=>{
-                cache.current.set( key, data );
-                callback(data);
+            cache.current.set(key, fetch(`/api/${key}`).then((res) => res.ok ? res.json() : handleError()).then((data) => {
+                cache.current.set(key, data);
+                setAPIData(data);
                 return data;
-            } ) );
+            }));
         }
-    }, [cache, callback, key] );
+    }, [cache, key]);
+    return apiData;
 }
 
-export const useMovieData = (id: string, callback: (data: MovieDataType)=>void) => {
-    useAPIData( `movies/${id}`, callback );
+export const useMovieData = (id: string | undefined): MovieDataType | undefined => {
+    return useAPIData(id ? `movies/${id}` : undefined);
 }
 
-export const useVideoData = (id: string, callback: (data: VideoDataType)=>void) => {
-    useAPIData( `videos/${id}`, callback );
+export const useVideoData = (id: string | undefined): VideoDataType | undefined => {
+    return useAPIData(id ? `videos/${id}` : undefined);
+}
+
+export const usePersonData = (id: string | undefined): PersonDataType | undefined => {
+    return useAPIData(id ? `persons/${id}` : undefined);
 }

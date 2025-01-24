@@ -12,6 +12,20 @@ const replaceRef = (obj: any) => {
     return obj;
 }
 
+export const resolveDocRef = async (obj: any, ...collectionNames: Array<string>) => {
+    for (const [key, value] of Object.entries(obj)) {
+        if (value instanceof DocumentReference) {
+            if( collectionNames.includes( value.parent.id )) {
+                obj[key] = await resolveDoc(value);
+            }
+            else obj[key] = value.id;
+        } else if (typeof value === "object" && value !== null) {
+            await resolveDocRef(value, ...collectionNames);
+        }
+    }
+    return obj;
+}
+
 const fireStoreError = (error?: unknown): never => {
     console.log(error);
     throw new Error("Server Error");
@@ -22,7 +36,13 @@ export const ref = (collectionName: string, id: string) => {
 }
 
 export const getData = (snapshot: DocumentSnapshot) => {
-    return { id: snapshot.id, ...replaceRef(snapshot.data()) }
+    return { id: snapshot.id, ...replaceRef(snapshot.data()) };
+}
+
+export const resolveDoc = async (doc: DocumentReference) => {
+    const snapshot = await getDoc(doc);
+    
+    return snapshot.exists()? {id: snapshot.id, ...snapshot.data()}: fireStoreError("Invalid Id");
 }
 
 export const fetchCollectionData = async (collectionName: string): Promise<Array<object>|never> => {
@@ -35,12 +55,36 @@ export const fetchCollectionData = async (collectionName: string): Promise<Array
     }
 }
 
+export const fetchCollections = async (collectionName: string): Promise<Array<any>|never> => {
+    try {
+        const q = query(collection(db, collectionName), limit(10));
+        const snapshot = await getDocs(q);
+        return snapshot.docs.map( doc => ({id: doc.id, ...doc.data()}) );
+    } catch (error) {
+        return fireStoreError(error);
+    }
+}
+
 export const fetchDocumentData = async (documentId: string, collectionName: string): Promise<object|never> => {
     const documentRef = doc(db, collectionName, documentId);
     try {
         const documentSnapshot = await getDoc(documentRef);
         if (documentSnapshot.exists()) {
             return getData(documentSnapshot);
+        } else {
+            return fireStoreError("Invalid Id");
+        }
+    } catch (error) {
+        return fireStoreError(error);
+    }
+}
+
+export const fetchDocument = async (documentId: string, collectionName: string, fetch: Array<string>): Promise<object|never> => {
+    const documentRef = doc(db, collectionName, documentId);
+    try {
+        const documentSnapshot = await getDoc(documentRef);
+        if (documentSnapshot.exists()) {
+            return {id: documentSnapshot.id, ...(await resolveDocRef(documentSnapshot.data(), ...fetch))};
         } else {
             return fireStoreError("Invalid Id");
         }

@@ -1,6 +1,6 @@
 "use client";
 
-import { CategoryType } from '@/types'
+import { CategoryType, MovieDataType } from '@/types'
 import React from 'react'
 import Movie from './Movie';
 import styled from 'styled-components';
@@ -29,12 +29,12 @@ const MovieList = styled.div`
     }
 `;
 
-const Category = ({category}: CategoryPropType) => {
-    return category.movieRefList.length<=1? null : (
+const Category = ({ category }: CategoryPropType) => {
+    return category.movieRefList.length <= 1 ? null : (
         <CategoryCont>
             <CategoryName>{category.name}</CategoryName>
             <MovieList>
-                {category.movieRefList.map( (movieRef) => <Movie key={`movie-${movieRef}`} movieRef={movieRef} /> )}
+                {category.movieRefList.map((movieRef: any) => <Movie key={`movie-${movieRef}`} movieRef={movieRef} />)}
             </MovieList>
             <br />
         </CategoryCont>

@@ -1,4 +1,4 @@
-import { useMovieData, useVideoData } from "./useAPIData";
+import { useMovieData, useVideoData, usePersonData } from "./useAPIData";
 import useOutsideClick from "./useOutsideClick";
 import useSearchParam from "./useSearchParam";
 
@@ -7,4 +7,5 @@ export {
     useMovieData,
     useVideoData,
     useSearchParam,
+    usePersonData,
 }

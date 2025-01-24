@@ -1,7 +1,7 @@
-import { MovieDataType, VideoDataType } from "@/types";
+import { MovieDataType } from "@/types";
 import { faAngleDown, faPlay, faRotate, faThumbTack, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useCallback, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { CompactPosterImg, CompactPromoCont, CompactVideo, CompactVideoButton, CompactVideoOverlay, LeftVideoOption, RightVideoOption } from "./styled";
 import { useSearchParam, useVideoData } from "@/components/hooks";
 import Link from "next/link";
@@ -12,13 +12,8 @@ const CompactPromoPlayer = ({movieData, onOpen=()=>{}, onClose=()=>{}}:{movieDat
     const [pinned, setPinned] = useState(false);
     const [muted, setMuted] = useState(true);
     const videoRef = useRef<HTMLVideoElement>(null);
-    const [videoData, setVideoData] = useState<VideoDataType>();
     const playTimeout = useRef(-1);
-    useVideoData( movieData.promoVideoRef, useCallback((data)=>{
-      if(data.id) {
-        setVideoData(data);
-      }
-    }, [movieData]));
+    const videoData = useVideoData( movieData.promoVideoRef );
     const video = {
         play: ()=>{
           if(pinned) return;
@@ -53,7 +48,7 @@ const CompactPromoPlayer = ({movieData, onOpen=()=>{}, onClose=()=>{}}:{movieDat
       else setMuted(prev => !prev);
     }
     const { add } = useSearchParam('movie');
-    return <CompactPromoCont $open={pinned || open} onMouseEnter={video.play} onMouseLeave={video.stop}>
+    return <CompactPromoCont className='compact-promo-player' $open={pinned || open} onMouseEnter={video.play} onMouseLeave={video.stop}>
       <LeftVideoOption>
         <CompactVideoButton onClick={()=>setPinned(prev=>!prev)}>
           <FontAwesomeIcon icon={faThumbTack} width={20} height={20} />

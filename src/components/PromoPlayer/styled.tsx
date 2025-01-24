@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 export const VideoCont = styled.div`
   width: 100%;
@@ -11,11 +11,11 @@ export const Video = styled.video`
   width: 100%;
 `;
 
-export const VideoOptions = styled.div`
+export const VideoOptions: any = styled.div`
   height: 30px;
   width: fit-content;
   position: absolute;
-  bottom: 100px;
+  ${({$compact}:any)=>$compact?css`bottom: 50px;`:css`bottom: 150px;`}
   right: 0;
   display: flex;
   align-items: center;
@@ -48,10 +48,10 @@ export const VideoButton = styled.button`
   justify-content: center;
 `;
 
-export const MovieInfo = styled.div`
+export const MovieInfo: any = styled.div`
   position: absolute;
   left: 0;
-  bottom: 100px;
+  ${({$compact}:any)=>$compact? css`bottom: 50px;`:css`bottom: 150px;`}
   width: 40%;
   margin-left: 40px;
   transition: opacity 1s;

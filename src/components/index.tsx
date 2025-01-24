@@ -6,6 +6,9 @@ import SearchBar from "./SearchBar";
 import Profile from "./Profile";
 import PromoPlayer from "./PromoPlayer";
 import { CacheProvider } from "./hooks/useAPIData";
+import Slider from "./Slider";
+import VideoPlayer from "./VideoPlayer";
+import Text from "./Text";
 
 export {
     Input,
@@ -16,4 +19,7 @@ export {
     Profile,
     PromoPlayer,
     CacheProvider,
+    Slider,
+    VideoPlayer,
+    Text,
 };

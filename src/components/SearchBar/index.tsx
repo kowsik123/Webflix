@@ -6,18 +6,21 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const SearchBarCont = styled.div`
-    height: 30px;
+    height: 35px;
     display: flex;
     align-items: center;
     overflow: hidden;
-    width: 30px;
+    width: 35px;
     border: 1px solid white;
     border-color: transparent;
     input {
         all: unset;
-        font-size: 13px;
+        font-size: 15px;
         padding-left: 5px;
-        width: 170px;
+        width: calc(100% - 40px);
+        &::placeholder {
+            color: #ffffffcd;
+        }
     }
     label {
         clip: rect(1px, 1px, 1px, 1px) !important;
@@ -28,7 +31,7 @@ const SearchBarCont = styled.div`
         width: 1px !important;
     }
     &.open {
-        width: 200px;
+        width: 220px;
         transition: width .5s;
         border-color: white;
     }
@@ -42,8 +45,8 @@ const SearchIcon = styled.div`
     justify-content: center;
     cursor: pointer;
     svg {
-        width: 15px;
-        height: 15px;
+        width: 21px;
+        height: 21px;
     }
 `;
 

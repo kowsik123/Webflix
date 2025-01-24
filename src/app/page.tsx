@@ -1,22 +1,25 @@
-"use client";
-
 import { PromoPlayer } from "@/components";
 import Catergories from "./components/Catergories";
-import { useEffect, useState } from "react";
-import fetchAPI from "./fetchAPI";
-import { MovieDataType } from "@/types";
+import { fetchCollectionData } from "@/services/firestore";
+import { CategoryType, MovieDataType } from "@/types";
 
-export default function Home() {
-  const [movieData, setMovieData] = useState<MovieDataType>();
-  useEffect(()=>{
-    fetchAPI.get(`movies/today`, (data)=>{
-      if(data) setMovieData( data );
-    })
-  }, []);
+const getCategories: any = async (): Promise<CategoryType> => {
+  const categories: any = await fetchCollectionData('categories');
+  return categories;
+}
+
+const getTodayMovie: any = async (): Promise<MovieDataType> => {
+  const movies: any = await fetchCollectionData("movies");
+  return movies[Math.floor(Math.random() * 10)];
+}
+
+export default async function Home() {
+  const movieData = await getTodayMovie();
+  const categories = await getCategories();
   return (
     <>
-      {movieData && <PromoPlayer movieData={movieData} />}
-      <Catergories />
+      <PromoPlayer movieData={movieData} />
+      <Catergories categories={categories} />
     </>
   );
 }

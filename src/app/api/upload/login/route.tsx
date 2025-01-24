@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 
-export function adminAuth(accessId: string) {
+function adminAuth(accessId: string) {
     return accessId == process.env.ADMIN_ACCESS_ID;
 }
 

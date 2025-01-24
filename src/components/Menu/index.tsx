@@ -11,10 +11,10 @@ const MenuCont: any = styled.div`
     padding: 2px;
     width: 200px;
     height: fit-content;
-    ${ ({top}:any)=>top && `top: ${top}px;` }
-    ${ ({left}:any)=>left && `left: ${left}px;` }
-    ${ ({right}:any)=>right && `right: ${right}px;` }
-    ${ ({bottom}:any)=>bottom && `bottom: ${bottom}px;` }
+    ${ ({$top}:any)=>$top && `top: ${$top}px;` }
+    ${ ({$left}:any)=>$left && `left: ${$left}px;` }
+    ${ ({$right}:any)=>$right && `right: ${$right}px;` }
+    ${ ({$bottom}:any)=>$bottom && `bottom: ${$bottom}px;` }
     background: linear-gradient(126deg, #1b94ee, #6415b0);
     box-shadow: 0 0 30px #4d5bd140;
 `;
@@ -35,9 +35,9 @@ type MenuPropType = {
     left?: number,
 } & PropsWithChildren;
 
-const Menu = ({ open, children, ...props}: MenuPropType) => {
+const Menu = ({ open, children, top, left, right, bottom}: MenuPropType) => {
     return open && (
-        <MenuCont {...props}>
+        <MenuCont $top={top} $left={left} $right={right} $bottom={bottom}>
             <BlackOverlay>
                 {children}
             </BlackOverlay>

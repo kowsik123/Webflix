@@ -6,12 +6,16 @@ import styled from 'styled-components'
 
 export const ProfileIconCont = styled.div`
     border-radius: 4px;
-    width: 25px;
-    height: 25px;
+    width: 35px;
+    height: 35px;
     overflow: hidden;
     display: flex;
     align-items: center;
     justify-content: center;
+    > img {
+      width: 35px;
+      height: 35px;
+    }
 `
 
 const Profile = () => {};
@@ -19,7 +23,7 @@ const Profile = () => {};
 Profile.Icon = ({src, name}: {src: string, name: string}) => {
   return (
     <ProfileIconCont>
-        <img src={src} alt={name.at(0)} width={25} height={25}></img>
+        <img src={src} alt={name.at(0)} width={35} height={35}></img>
     </ProfileIconCont>
   )
 };

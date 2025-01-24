@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useRef, useState } from 'react'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 import netflix from '@/public/netflix.png';
 
 const NavBarCont: any = styled.nav`
@@ -16,16 +16,17 @@ const NavBarCont: any = styled.nav`
     top: 0;
     left: 0;
     width: 100vw;
-    height: 40px;
+    height: 60px;
     overflow: hidden;
     transition: background-color .5s;
     background: linear-gradient(#000000b0, transparent);
-    ${({$transparent}: any)=>!$transparent && 'background-color: #000000db;' }
+    ${({ $transparent }: any) => !$transparent && 'background-color: #000000db;'}
     display: flex;
     align-items: center;
     z-index: 800;
     a.nav-logo {
-        margin: 0 30px;
+        margin: 0 40px;
+        padding-top: 5px;
     }
     img.netflix-logo {
         height: 25px;
@@ -42,29 +43,29 @@ const NavRightCont = styled.div`
     height: 100%;
     display: flex;
     align-items: center;
-    gap: 10px;
-    margin-right: 20px;
+    gap: 20px;
+    margin-right: 30px;
     font-size: 14px;
     line-height: 20px;
 `;
 
 const NavLinkCont: any = styled(Link)`
-    ${({active}:any)=>active?`
+    ${({ active }: any) => active ? css`
     opacity: 1;
     background: linear-gradient(126deg, #9ed6ff, #d09eff);
     background-clip: text;
-    color: transparent;`:`
+    color: transparent;`: css`
     opacity: 0.8;`}
 `;
 
-const NavLink = ({children, href}: React.PropsWithChildren&{href: string}) => {
+const NavLink = ({ children, href }: React.PropsWithChildren & { href: string }) => {
     const pathname = usePathname();
-    return <NavLinkCont href={href} className='nav-link' active={(pathname==href)?"true":""}>{children}</NavLinkCont>;
+    return <NavLinkCont href={href} className='nav-link' active={(pathname == href) ? "true" : ""}>{children}</NavLinkCont>;
 }
 
 const NavIcon = styled.div`
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -73,8 +74,8 @@ const NavIcon = styled.div`
         border-radius: 4px;
     }
     > .bell-svg {
-        width: 16px;
-        height: 16px;
+        width: 22px;
+        height: 22px;
     }
 `;
 
@@ -130,30 +131,30 @@ const NoNotification = styled.div`
 const NavRightComponents = () => {
     const notificationRef = useRef(null);
     const profileRef = useRef(null);
-    const [ notificationOpen, setNotificationOpen ] = useState<boolean>(false);
-    const [ profileOpen, setProfileOpen ] = useState<boolean>(false);
-    useOutsideClick(notificationRef, notificationOpen && (()=>{
+    const [notificationOpen, setNotificationOpen] = useState<boolean>(false);
+    const [profileOpen, setProfileOpen] = useState<boolean>(false);
+    useOutsideClick(notificationRef, notificationOpen && (() => {
         setNotificationOpen(false);
     }));
-    useOutsideClick(profileRef, profileOpen && (()=>{
+    useOutsideClick(profileRef, profileOpen && (() => {
         setProfileOpen(false);
     }));
     return <NavRightCont>
-        <SearchBar onSearch={()=>{}} placeholder='Title, People, Genre' />
+        <SearchBar onSearch={() => { }} placeholder='Title, People, Genre' />
         <NavIcon ref={notificationRef}>
-            <NavIcon onClick={()=>{setNotificationOpen(prev=>!prev)}}><FontAwesomeIcon className='bell-svg' icon={faBell} width={16} height={16} /></NavIcon>
-            <Menu open={notificationOpen} top={50} right={60}>
+            <NavIcon onClick={() => { setNotificationOpen(prev => !prev) }}><FontAwesomeIcon className='bell-svg' icon={faBell} width={16} height={16} /></NavIcon>
+            <Menu open={notificationOpen} top={70} right={70}>
                 <NoNotification>
                     <FontAwesomeIcon icon={faBellSlash} width={16} height={16} />
                     <span>No Notification</span>
                 </NoNotification>
             </Menu>
         </NavIcon>
-        <NavIcon ref={profileRef} onClick={()=>{setProfileOpen(prev=>!prev)}}>
-            <NavIcon onClick={()=>{setNotificationOpen(prev=>!prev)}}>
+        <NavIcon ref={profileRef} onClick={() => { setProfileOpen(prev => !prev) }}>
+            <NavIcon onClick={() => { setNotificationOpen(prev => !prev) }}>
                 <Profile.Icon src='https://occ-0-6499-3663.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABVMHS8-zIB6xU0fuAJ-8aArIOvDzPfYtp1n3Z_YjkaVHK-aMX2n1lrHZWxm6Gz6hbcVPKJFN4mEWmCeyXgueDDrCL26PZ9rj3bcI.png?r=85b' name='Kowsik' />
             </NavIcon>
-            <Menu open={profileOpen} top={50} right={20}>
+            <Menu open={profileOpen} top={70} right={30}>
                 <ProfileList>
                     <NavIconOption>
                         <Profile.NameAndIcon href={'/'} src='https://occ-0-6499-3663.1.nflxso.net/dnm/api/v6/vN7bi_My87NPKvsBoib006Llxzg/AAAABXh10ggeTTdhZO1JIH_SNQ4gp0vsNnWfE8Mg2ckwzGvUzJMRpPFCujRK3Ex5K9VbkIyvUHQ92LBVdsemkj6zlpquL-qWMCNKeg.png?r=229' name='Kid Profile' />
@@ -162,20 +163,20 @@ const NavRightComponents = () => {
                 <Divider />
                 <ProfileOptionList>
                     <NavIconOption><Link href={"/"}>
-                            <FontAwesomeIcon icon={faEdit} width={25} height={25}></FontAwesomeIcon>
-                            <span>Manage Profile</span>
+                        <FontAwesomeIcon icon={faEdit} width={25} height={25}></FontAwesomeIcon>
+                        <span>Manage Profile</span>
                     </Link></NavIconOption>
                     <NavIconOption><Link href={"/"}>
-                            <FontAwesomeIcon icon={faRotate}  width={25} height={25}></FontAwesomeIcon>
-                            <span>Transfer Profile</span>
+                        <FontAwesomeIcon icon={faRotate} width={25} height={25}></FontAwesomeIcon>
+                        <span>Transfer Profile</span>
                     </Link></NavIconOption>
                     <NavIconOption><Link href={"/"}>
-                            <FontAwesomeIcon icon={faUser} width={25} height={25}></FontAwesomeIcon>
-                            <span>Account</span>
+                        <FontAwesomeIcon icon={faUser} width={25} height={25}></FontAwesomeIcon>
+                        <span>Account</span>
                     </Link></NavIconOption>
                     <NavIconOption><Link href={"/"}>
-                            <FontAwesomeIcon icon={faQuestionCircle} width={25} height={25}></FontAwesomeIcon>
-                            <span>Help Center</span>
+                        <FontAwesomeIcon icon={faQuestionCircle} width={25} height={25}></FontAwesomeIcon>
+                        <span>Help Center</span>
                     </Link></NavIconOption>
                 </ProfileOptionList>
                 <Divider />
@@ -191,21 +192,20 @@ const TopPixel = styled.div`
     width: 100%;
 `
 
-const logoSrc = netflix.src || 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/08/Netflix_2015_logo.svg/1024px-Netflix_2015_logo.svg.png';
-
 const NavBar = () => {
     const ref = useRef<HTMLDivElement>(null);
-    const [transparent, setTransparent] = useState( true );
-    useEffect(()=>{
-        if(ref.current) {
-            const observer = new IntersectionObserver(([entry])=>{
+    const pathname = usePathname();
+    const [transparent, setTransparent] = useState(true);
+    useEffect(() => {
+        if (ref.current) {
+            const observer = new IntersectionObserver(([entry]) => {
                 setTransparent(entry.isIntersecting)
             });
             observer.observe(ref.current);
-            ()=>observer.disconnect();
+            () => observer.disconnect();
         }
     }, [ref]);
-    return (
+    return pathname.startsWith('/watch') ? <></> : (
         <>
             <NavBarCont $transparent={transparent}>
                 <Link href={'/'} className='nav-logo'><img height={25} className='netflix-logo' src={netflix.src} /></Link>

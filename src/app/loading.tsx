@@ -2,7 +2,9 @@ import React from 'react'
 
 const LoadingPage = () => {
   return (
-    <div>Loading...</div>
+    <div className='black-background'>
+      <div className='loading'></div>
+    </div>
   )
 }
 

@@ -14,9 +14,6 @@ export const CompactPromoCont: any = styled.div`
   ${({$open}:any)=> $open && css`
     transition-delay: var(--animation-duration);
     width: 330px;
-    .compact-video-duration {
-      z-index: 10;
-    }
   ` }
 `;
 

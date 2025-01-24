@@ -4,7 +4,7 @@ export type DataType = {
 
 export type CategoryType = DataType & {
     name: string,
-    movieRefList: Array<string>,
+    movieRefList: Array<string|MovieDataType>,
 }
 
 export type MovieDataType = DataType & {
@@ -18,7 +18,7 @@ export type MovieDataType = DataType & {
     directorRefList: Array<string>,
     castRefList: Array<string>,
     writerRefList: Array<string>,
-    videoRef: string | VideoDataType,
+    videoRef: string,
     posterImgSrc: string,
     moreVideoRefList: Array<string>,
     collectionRef?: string | null,
@@ -40,6 +40,12 @@ export type VideoDataType = DataType & {
     releaseDate: string,
     duration?: number,
     quality?: "4K"|"HD"|"SD"|string,
+}
+
+export type PersonDataType = DataType & {
+    name: string,
+    profileImgSrc: string,
+    description: string,
 }
 
 export type UploadPropType<T> = {

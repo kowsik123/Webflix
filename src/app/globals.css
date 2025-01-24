@@ -50,3 +50,51 @@ a {
     display: block;
   }
 }
+
+.black-background {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  background: black;
+}
+
+.loading {
+  position: fixed;
+  z-index: 1001;
+  width: 100vw;
+  height: 4px;
+  box-shadow: 0 0 10px #2b24ff8a;
+  top: 0;
+  left: 0;
+  background: linear-gradient(to right, #2491ff, #430081, #2491ff);
+	background-size: 400% 400%;
+	animation: gradient 10s linear infinite;
+}
+
+@keyframes gradient {
+	0% {
+		background-position: 200% 0%;
+	}
+  50% {
+		background-position: 0% 0%;
+	}
+	100% {
+		background-position: 200% 0%;
+	}
+}
+
+.skeleton {
+  animation: skeleton-loading 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: hsl(200, 20%, 80%);
+  }
+  100% {
+    background-color: hsl(200, 20%, 95%);
+  }
+}

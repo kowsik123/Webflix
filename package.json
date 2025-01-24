@@ -22,6 +22,8 @@
     "styled-components": "^6.1.13"
   },
   "devDependencies": {
+    "@swc/core": "^1.10.8",
+    "@swc/plugin-styled-components": "^6.0.4",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",

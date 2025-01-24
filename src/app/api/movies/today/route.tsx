@@ -1,4 +1,4 @@
-import { fetchCollectionData, fetchDocumentData } from "@/services/firestore";
+import { fetchCollectionData } from "@/services/firestore";
 import { NextResponse } from "next/server";
 
 const getTodayMovie = async () => {

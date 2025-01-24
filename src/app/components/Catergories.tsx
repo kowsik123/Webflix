@@ -2,8 +2,6 @@
 
 import styled from 'styled-components';
 import Category from './Category';
-import { useEffect, useState } from 'react';
-import fetchAPI from '../fetchAPI';
 import { CategoryType } from '@/types';
 
 const CategoriesCont = styled.div`
@@ -25,13 +23,7 @@ const CategoryList = styled.div`
     z-index: 5;
 `;
 
-const Catergories = () => {
-    const [categories, setCategories] = useState<Array<CategoryType>>();
-    useEffect(() => {
-        fetchAPI.get("categories", (data) => {
-            setCategories(data);
-        })
-    }, []);
+const Catergories = ({ categories }: { categories: Array<CategoryType> }) => {
     return (
         <CategoriesCont>
             <VideoOverlay />
