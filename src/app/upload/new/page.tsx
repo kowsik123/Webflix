@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef } from 'react'
 import styled from 'styled-components';
-import uploadAPI from '../uploadAPI';
 
 const TopCont = styled.div`
     width: 100%;
@@ -18,15 +17,10 @@ const page = () => {
     const inputRef= useRef<HTMLInputElement>(null);
     const clickHandler = () => {
         if( ref.current && inputRef.current ) {
-            uploadAPI.post( 'movie' , {movieData: JSON.parse(ref.current.value), categoryName: inputRef.current.value}, (data)=>{
+            fetch(`/api/upload/movie`, {method: "post", body: JSON.stringify({movieData: JSON.parse(ref.current.value), categoryName: inputRef.current.value})}).then( (res) => res.json() ).then( (data)=>{
                 console.log(data);
             } );
         }
-    }
-    const dbexe = () => {
-        uploadAPI.get('dbexe', (data)=>{
-            console.log(data);
-        })
     }
     return (
         <TopCont>
@@ -35,8 +29,6 @@ const page = () => {
             <textarea ref={ref}></textarea>
             <br />
             <button type='button' onClick={clickHandler}>upload</button>
-            <br />
-            <button type='button' onClick={dbexe}>exe</button>
         </TopCont>
     )
 }

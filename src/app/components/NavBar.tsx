@@ -181,7 +181,7 @@ const NavRightComponents = () => {
                 </ProfileOptionList>
                 <Divider />
                 <SignOutButton role='button'>
-                    <Link href={'/signout'}>Sign out</Link>
+                    <Link href={'/'}>Sign out</Link>
                 </SignOutButton>
             </Menu>
         </NavIcon>
@@ -197,14 +197,16 @@ const NavBar = () => {
     const pathname = usePathname();
     const [transparent, setTransparent] = useState(true);
     useEffect(() => {
+        if(pathname.startsWith('/watch')) return;
+
         if (ref.current) {
             const observer = new IntersectionObserver(([entry]) => {
                 setTransparent(entry.isIntersecting)
             });
             observer.observe(ref.current);
-            () => observer.disconnect();
+            return () => observer.disconnect();
         }
-    }, [ref]);
+    }, [ref, pathname]);
     return pathname.startsWith('/watch') ? <></> : (
         <>
             <NavBarCont $transparent={transparent}>

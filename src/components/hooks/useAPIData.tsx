@@ -6,7 +6,6 @@ import { createContext, PropsWithChildren, RefObject, useContext, useEffect, use
 const CacheContext = createContext<RefObject<Map<string, any>>>({ current: new Map() });
 
 const handleError = () => {
-    //TODO: Show Error Message
     console.error("API Server Error");
     throw new Error("API Server Error");
 }
@@ -58,4 +57,14 @@ export const useVideoData = (id: string | undefined): VideoDataType | undefined 
 
 export const usePersonData = (id: string | undefined): PersonDataType | undefined => {
     return useAPIData(id ? `persons/${id}` : undefined);
+}
+
+export const useMovieList = () => {
+    const [movieList, setMovieList] = useState<Array<MovieDataType>>([]);
+    useEffect(() => {
+        fetch('/api/movies').then((res) => res.json()).then((data) => {
+            setMovieList(data);
+        })
+    }, []);
+    return movieList;
 }

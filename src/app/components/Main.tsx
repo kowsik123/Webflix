@@ -1,8 +1,8 @@
 "use client";
 
 import React, { PropsWithChildren } from 'react'
-import MovieModal from './MovieModal';
 import { CacheProvider } from '@/components';
+import MovieModal from './MovieModal';
 
 const Main = ({ children }: PropsWithChildren) => {
   return (

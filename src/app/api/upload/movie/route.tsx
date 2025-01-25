@@ -39,8 +39,8 @@ const createOrGetCategoryId = async (name: string) => {
 
 export async function POST(request: NextRequest) {
     const reqData = await request.json();
-    const data = reqData.data.movieData;
-    const categoryId = await createOrGetCategoryId(reqData.data.categoryName);
+    const data = reqData.movieData;
+    const categoryId = await createOrGetCategoryId(reqData.categoryName);
 
     const uploadData = {
         ageRating: data.contentAdvisory.certificationValue,

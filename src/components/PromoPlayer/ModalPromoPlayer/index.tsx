@@ -1,17 +1,19 @@
 "use client"
 
 import { MovieDataType } from '@/types'
-import { faPlay, faPlus, faRotate, faThumbsUp, faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faPlus, faRotate, faThumbsUp as faThumbsUpSolid, faVolumeHigh, faVolumeXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { ReactEventHandler, useEffect, useRef, useState } from 'react'
 import { AgeRating, MovieButton, MovieButtonCont, MovieInfo, MovieInfoBackground, MovieTitle, Video, VideoButton, VideoCont, VideoOptions } from '../styled'
 import { useVideoData } from '@/components/hooks';
 import Link from 'next/link';
+import { faThumbsUp } from '@fortawesome/free-regular-svg-icons'
 
 const ModalPromoPlayer = ({ movieData }: { movieData: MovieDataType }) => {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [ended, setEnded] = useState(false);
   const [muted, setMuted] = useState(true);
+  const [liked, setLiked] = useState(false);
   const videoData = useVideoData(movieData.promoVideoRef);
   useEffect( ()=>{
     if(videoRef.current) {
@@ -52,7 +54,7 @@ const ModalPromoPlayer = ({ movieData }: { movieData: MovieDataType }) => {
           <MovieButtonCont>
             <Link href={`/watch/${movieData.id}`}><MovieButton> <FontAwesomeIcon icon={faPlay} /><span>Play</span></MovieButton></Link>
             <MovieButton><FontAwesomeIcon icon={faPlus} /></MovieButton>
-            <MovieButton><FontAwesomeIcon icon={faThumbsUp} /></MovieButton>
+            <MovieButton onClick={()=>setLiked(prev=>!prev)}><FontAwesomeIcon icon={liked?faThumbsUpSolid:faThumbsUp} /></MovieButton>
           </MovieButtonCont>
         </MovieInfo>
     </VideoCont>

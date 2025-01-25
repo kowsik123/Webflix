@@ -24,12 +24,12 @@ const PromoPlayer = ({ movieData }: { movieData: MovieDataType }) => {
   useEffect( ()=>{
     if(ref.current) {
       const observer = new IntersectionObserver(([entry])=>{
-        if(videoSrc) setHideInfo(entry.isIntersecting);
-      });
+        setHideInfo(entry.isIntersecting);
+      }, {threshold: 1});
       observer.observe(ref.current);
-      ()=>observer.disconnect();
+      return ()=>observer.disconnect();
     }
-  }, [ ref, videoSrc ] );
+  }, [ ref ] );
   useEffect( ()=>{
     if(videoRef.current) {
       const observer = new IntersectionObserver(([entry])=>{
@@ -37,7 +37,7 @@ const PromoPlayer = ({ movieData }: { movieData: MovieDataType }) => {
         else videoRef.current?.pause();
       }, {threshold: 0.3});
       observer.observe(videoRef.current);
-      ()=>observer.disconnect();
+      return ()=>observer.disconnect();
     }
   }, [ videoRef ] );
   const videoButtonClick = () => {
@@ -85,8 +85,7 @@ const PromoPlayer = ({ movieData }: { movieData: MovieDataType }) => {
     movieData.id && add(movieData.id);
   }
   return (
-    <VideoCont>
-      <TopPixel ref={ref} />
+    <VideoCont ref={ref}>
       {videoSrc && <>
         <Video ref={videoRef} autoPlay={!id} muted={muted} src={videoSrc} poster={movieData.posterImgSrc} onPlay={videoPlay} onEnded={videoEnd} onPause={videoPause}></Video>
         <VideoOptions onMouseEnter={videoOptionsMouseEntered} onMouseLeave={videoOptionsMouseLeft}>

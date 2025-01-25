@@ -23,17 +23,23 @@ const CategoryList = styled.div`
     z-index: 5;
 `;
 
-const Catergories = ({ categories }: { categories: Array<CategoryType> }) => {
+export const Catergories = ({ categories }: { categories: Array<CategoryType> }) => {
     return (
-        <CategoriesCont>
-            <VideoOverlay />
-            <CategoryList>
-                {categories && categories.map(category => <Category key={`category-${category.id}`} category={category} />)}
-                {categories && categories.map(category => <Category key={`category2-${category.id}`} category={category} />)}
-                {categories && categories.map(category => <Category key={`category3-${category.id}`} category={category} />)}
-            </CategoryList>
-        </CategoriesCont>
+        <>
+            {categories && categories.map(category => <Category key={`category-${category.id}`} category={category} />)}
+            {categories && categories.map(category => <Category key={`category2-${category.id}`} category={category} />)}
+            {categories && categories.map(category => <Category key={`category3-${category.id}`} category={category} />)}
+        </>
     )
 }
 
-export default Catergories
+const HomeCategorieList = ({ categories }: { categories: Array<CategoryType> }) => {
+    return <CategoriesCont>
+        <VideoOverlay />
+        <CategoryList>
+            <Catergories categories={categories} />
+        </CategoryList>
+    </CategoriesCont>
+}
+
+export default HomeCategorieList;

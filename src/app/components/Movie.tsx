@@ -117,6 +117,14 @@ const AddButton = styled.div`
       border-color: #ffffff;
     }
 `
+export const MovieWithData = ({ movieData }: { movieData: MovieDataType }) => {
+    const [open, setOpen] = useState(false);
+    return (
+        <MovieCont className='movie-with-data' $open={open}>
+            {movieData && <PromoPlayer.Compact movieData={movieData} onClose={() => setOpen(false)} onOpen={() => setOpen(true)} />}
+        </MovieCont>
+    )
+};
 
 Movie.Modal = ({ movieData }: { movieData: MovieDataType }) => {
     return <MovieInModal>

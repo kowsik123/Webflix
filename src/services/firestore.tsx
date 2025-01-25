@@ -45,9 +45,9 @@ export const resolveDoc = async (doc: DocumentReference) => {
     return snapshot.exists()? {id: snapshot.id, ...snapshot.data()}: fireStoreError("Invalid Id");
 }
 
-export const fetchCollectionData = async (collectionName: string): Promise<Array<object>|never> => {
+export const fetchCollectionData = async (collectionName: string, docLimit=10): Promise<Array<object>|never> => {
     try {
-        const q = query(collection(db, collectionName), limit(10));
+        const q = query(collection(db, collectionName), limit(docLimit));
         const snapshot = await getDocs(q);
         return snapshot.docs.map( doc => getData(doc) );
     } catch (error) {
@@ -135,12 +135,4 @@ export const updateDocumentArray = async (collectionName: string, id: string, ar
     } catch (error) {
         fireStoreError();
     }
-}
-
-// TODO: Delete
-export const exe = async () => {
-    // const res = await Promise.all( (await getDocs( query(collection(db, "movies")) )).docs.map(async (doc)=>{
-    //     await updateDoc(doc.ref, {creatorRefList: deleteField()});
-    // }));
-    // return {};
 }
