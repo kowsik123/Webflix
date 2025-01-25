@@ -2,7 +2,8 @@
 
 import React, { PropsWithChildren } from 'react'
 import { CacheProvider } from '@/components';
-import MovieModal from './MovieModal';
+import dynamic from 'next/dynamic';
+const MovieModal = dynamic(() => import("./MovieModal"), {ssr: false});
 
 const Main = ({ children }: PropsWithChildren) => {
   return (

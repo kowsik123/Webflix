@@ -1,3 +1,5 @@
+"use client";
+
 import { MovieDataType } from "@/types";
 import { faAngleDown, faPlay, faRotate, faThumbTack, faVolumeHigh, faVolumeXmark } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
