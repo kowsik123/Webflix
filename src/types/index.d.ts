@@ -47,9 +47,3 @@ export type PersonDataType = DataType & {
     profileImgSrc: string,
     description: string,
 }
-
-export type UploadPropType<T> = {
-    id?: string,
-    defaultData?: T,
-    onFinish?: (data: T)=>void,
-}
